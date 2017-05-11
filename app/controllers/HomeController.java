@@ -2,6 +2,7 @@ package controllers;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Transaction;
+import play.Logger;
 import play.mvc.*;
 import play.data.*;
 import static play.data.Form.*;
@@ -11,9 +12,11 @@ import models.*;
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 
+import cache.cacheable;
 /**
  * Manage a database of computers
  */
+@cacheable
 public class HomeController  extends Controller {
 
     private FormFactory formFactory;
@@ -33,6 +36,7 @@ public class HomeController  extends Controller {
     /**
      * Handle default path requests, redirect to computers list
      */
+
     public Result index() {
         return GO_HOME;
     }
@@ -46,6 +50,7 @@ public class HomeController  extends Controller {
      * @param filter Filter applied on computer names
      */
     public Result list(int page, String sortBy, String order, String filter) {
+        //Logger.info("in controller");
         return ok(
             views.html.list.render(
                 Computer.page(page, 10, sortBy, order, filter),

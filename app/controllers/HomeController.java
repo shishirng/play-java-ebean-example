@@ -1,10 +1,13 @@
 package controllers;
 
+import cache.PsbCachable;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Transaction;
 import play.mvc.*;
 import play.data.*;
 import static play.data.Form.*;
+import play.cache.*;
+import play.Logger;
 
 import models.*;
 
@@ -14,15 +17,20 @@ import javax.persistence.PersistenceException;
 /**
  * Manage a database of computers
  */
+//@PsbCachable
 public class HomeController  extends Controller {
-
     private FormFactory formFactory;
 
     @Inject
-    public HomeController(FormFactory formFactory) {
+    CacheApi cache;
+
+    @Inject
+    public HomeController(FormFactory formFactory, CacheApi cache) {
+        this.cache = cache;
         this.formFactory = formFactory;
     }
 
+    
     /**
      * This result directly redirect to application home.
      */
@@ -53,7 +61,19 @@ public class HomeController  extends Controller {
             )
         );
     }
-    
+	public Result cache() {
+		    Company comp =  Company.find.byId(1L);
+		    comp.save();
+			return ok((comp.name));
+	}
+
+    public Result cache_comp(){
+        Company comp1 = (Company) Company.find.byId(1L);
+        comp1.name = "shishir inc";
+        comp1.save();
+
+    	return ok(comp1.name);
+    }
     /**
      * Display the 'edit form' of a existing Computer.
      *
@@ -103,6 +123,7 @@ public class HomeController  extends Controller {
     /**
      * Display the 'new computer form'.
      */
+    @PsbCachable
     public Result create() {
         Form<Computer> computerForm = formFactory.form(Computer.class);
         return ok(
@@ -134,4 +155,3 @@ public class HomeController  extends Controller {
     
 
 }
-            

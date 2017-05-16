@@ -1,18 +1,22 @@
 package models;
 
 import java.util.*;
+import javax.inject.Inject;
+
 import javax.persistence.*;
 
-import play.db.ebean.*;
+import cache.PsbCachable;
+import com.avaje.ebean.Model;
 import play.data.validation.*;
+import play.Logger;
 
 
 
 /**
  * Company entity managed by Ebean
  */
-@Entity 
-public class Company extends com.avaje.ebean.Model {
+@Entity
+public class Company extends Model {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,7 +25,7 @@ public class Company extends com.avaje.ebean.Model {
     
     @Constraints.Required
     public String name;
-    
+
     /**
      * Generic query helper for entity Company with id Long
      */
@@ -34,6 +38,8 @@ public class Company extends com.avaje.ebean.Model {
         }
         return options;
     }
+    public Company() {
+
+    }
 
 }
-

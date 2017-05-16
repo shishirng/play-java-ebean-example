@@ -4,3 +4,5 @@ resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/release
 addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.5.14")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-play-ebean" % "3.0.1")
+
+addSbtPlugin("com.typesafe.sbt" % "sbt-aspectj" % "0.10.6")

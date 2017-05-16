@@ -22,3 +22,5 @@ POST    /computers/:id/delete       controllers.HomeController.delete(id:Long)
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
+GET /cache      controllers.HomeController.cache()
+GET /cache1     controllers.HomeController.cache_comp()

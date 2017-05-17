@@ -9,7 +9,8 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import play.Logger;
 import cache.PsbCachable;
-import controllers.HomeController;
+
+import java.lang.annotation.Annotation;
 
 /**
  * Created by shishir on 15/05/17.
@@ -18,31 +19,40 @@ import controllers.HomeController;
 @Aspect
 public class CacheImpl {
 
-    /*@Pointcut("call(public * *(..))")
-    public void publicMethod() {}
 
-    //@Around("execution(@PsbCachable public * (@controllers.HomeController *).*(..))")
-    //@Around("execution(@PsbCache public * (@DisabledForBlockedAccounts *).*(..))")
-    @Around("publicMethod() && @within(PsbCachable)")
-    */
-    @Around("execution(@PsbCachable * controllers.HomeController.*(..))")
-    public Object LogExecutionTimeByClass(ProceedingJoinPoint joinPoint) throws Throwable {
-        Logger.info("here in Around");
+    /*@Pointcut("@within(PsbCachable) && call(public * models.*.*(..))")
+    public void getNameMethod() {}
+
+    @Around("getNameMethod()")
+    public Object CacheGetNameHandler(ProceedingJoinPoint joinPoint) throws Throwable {
+        Logger.info("Around for {}->{}->{}", joinPoint.getTarget().getClass().getSuperclass().getSimpleName(),
+                joinPoint.getTarget().getClass().getSimpleName(),joinPoint.getSignature().getName());
         return joinPoint.proceed();
 
     }
+    */
 
+    @Pointcut("call(public * com.avaje.ebean.Model.save(..))")
+    public void psbhandler() {}
 
-    /*    public Object invoke(MethodInvocation method) throws Throwable{
-            Logger.info("class {}",method.getClass().getName());
-            if (method.getMethod().getName() == "list") {
-                Logger.info("interceptor in list");
-            } else {
-                Logger.info("in interceptor for  {}", method.getMethod().getName());
-
+    @Around("psbhandler()")
+    public Object cachehandler(ProceedingJoinPoint joinPoint) throws Throwable {
+        if(joinPoint.getTarget().getClass().isAnnotationPresent(PsbCachable.class)) {
+            Class targetclass = joinPoint.getTarget().getClass();
+            Annotation[] annotations = targetclass.getAnnotations();
+            String keyvalue = "";
+            for(Annotation annotation : annotations) {
+                if (annotation instanceof PsbCachable) {
+                    PsbCachable psbcache = (PsbCachable) annotation;
+                    keyvalue = psbcache.keyname();
+                }
             }
-            return method.proceed();
-
+            Logger.info("Around for psbhandler {}->{}->{} id: {}", joinPoint.getTarget().getClass().getSuperclass().getSimpleName(),
+                    joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(),
+                    keyvalue);
         }
-        */
+        return joinPoint.proceed();
+    }
+
+
 }

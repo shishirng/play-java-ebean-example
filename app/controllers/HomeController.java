@@ -62,13 +62,12 @@ public class HomeController  extends Controller {
         );
     }
 	public Result cache() {
-		    Company comp =  Company.find.byId(1L);
-		    comp.save();
-			return ok((comp.name));
+		    Company comp = Company.find.byId(1L);
+		    return ok();
 	}
 
     public Result cache_comp(){
-        Company comp1 = (Company) Company.find.byId(1L);
+        Company comp1 = new Company();
         comp1.name = "shishir inc";
         comp1.save();
 
@@ -123,7 +122,7 @@ public class HomeController  extends Controller {
     /**
      * Display the 'new computer form'.
      */
-    @PsbCachable
+    //@PsbCachable
     public Result create() {
         Form<Computer> computerForm = formFactory.form(Computer.class);
         return ok(

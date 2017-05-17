@@ -18,4 +18,5 @@ import static java.lang.annotation.ElementType.TYPE;
 @Target({TYPE, METHOD, FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PsbCachable {
+    public String keyname();
 }

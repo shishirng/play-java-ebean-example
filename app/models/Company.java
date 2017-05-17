@@ -15,6 +15,7 @@ import play.Logger;
 /**
  * Company entity managed by Ebean
  */
+@PsbCachable(keyname="id")
 @Entity
 public class Company extends Model {
 
@@ -37,9 +38,6 @@ public class Company extends Model {
             options.put(c.id.toString(), c.name);
         }
         return options;
-    }
-    public Company() {
-
     }
 
 }

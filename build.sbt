@@ -27,5 +27,6 @@ products in Compile <<= products in Aspectj
 
 products in Runtime <<= products in Compile
 
+
 javaOptions += "-javaagent:~/.ivy2/cache/org.aspectj/aspectjweaver/jars/aspectjweaver-1.8.9.jar -noverify"
 fork in run := true

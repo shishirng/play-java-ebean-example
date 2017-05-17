@@ -4,6 +4,7 @@ import java.util.*;
 import javax.inject.Inject;
 import javax.persistence.*;
 
+import cache.PsbCachable;
 import com.avaje.ebean.Model;
 import play.data.format.*;
 import play.data.validation.*;
@@ -13,6 +14,7 @@ import com.avaje.ebean.*;
 /**
  * Computer entity managed by Ebean
  */
+@PsbCachable(keyname = "introduced")
 @Entity 
 public class Computer extends Model {
 

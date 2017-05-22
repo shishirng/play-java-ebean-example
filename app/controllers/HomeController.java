@@ -62,16 +62,17 @@ public class HomeController  extends Controller {
         );
     }
 	public Result cache() {
-		    Company comp = Company.find.byId(1L);
+		    Company comp = (Company) Company.finder(new Long(12345679));
 		    return ok();
 	}
 
     public Result cache_comp(){
         Company comp1 = new Company();
         comp1.name = "shishir inc";
+        comp1.id = new Long("12345679");
         comp1.save();
 
-    	return ok(comp1.name);
+    	return ok();
     }
     /**
      * Display the 'edit form' of a existing Computer.
@@ -80,7 +81,7 @@ public class HomeController  extends Controller {
      */
     public Result edit(Long id) {
         Form<Computer> computerForm = formFactory.form(Computer.class).fill(
-            Computer.find.byId(id)
+            Computer.finder(id)
         );
         return ok(
             views.html.editForm.render(id, computerForm)

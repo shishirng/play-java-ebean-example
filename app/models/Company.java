@@ -1,5 +1,6 @@
 package models;
 
+import java.lang.reflect.Method;
 import java.util.*;
 import javax.inject.Inject;
 
@@ -7,6 +8,7 @@ import javax.persistence.*;
 
 import cache.PsbCachable;
 import com.avaje.ebean.Model;
+import org.aopalliance.intercept.MethodInvocation;
 import play.data.validation.*;
 import play.Logger;
 
@@ -15,7 +17,6 @@ import play.Logger;
 /**
  * Company entity managed by Ebean
  */
-@PsbCachable(keyname="id")
 @Entity
 public class Company extends Model {
 
@@ -38,6 +39,10 @@ public class Company extends Model {
             options.put(c.id.toString(), c.name);
         }
         return options;
+    }
+
+    public static Object finder(Long key) {
+        return find.byId(key);
     }
 
 }

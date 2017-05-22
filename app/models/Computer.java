@@ -14,7 +14,7 @@ import com.avaje.ebean.*;
 /**
  * Computer entity managed by Ebean
  */
-@PsbCachable(keyname = "introduced")
+@PsbCachable(keyname = "id")
 @Entity 
 public class Computer extends Model {
 
@@ -59,4 +59,7 @@ public class Computer extends Model {
                         .findPagedList(page, pageSize);
     }
 
+    public static Computer finder(Long key) {
+        return find.byId(key);
+    }
 }

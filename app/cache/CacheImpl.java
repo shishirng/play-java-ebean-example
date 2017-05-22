@@ -55,7 +55,7 @@ public class CacheImpl {
         if (keyIdentifier == null) {
             return;
         }
-        Logger.debug("Around for Save {}->{} id: {}",
+        Logger.debug("Around Save {}->{} id: {}",
                 pjp.getTarget().getClass().getSimpleName(), pjp.getSignature().getName(),
                 keyIdentifier);
 
@@ -85,7 +85,7 @@ public class CacheImpl {
             return pjp.proceed();
         }
 
-        Logger.debug("Around for delete {}->{} id: {}",
+        Logger.debug("Around {}->{} for id: {}",
                 pjp.getTarget().getClass().getSimpleName(), pjp.getSignature().getName(),
                 keyIdentifier);
 
@@ -115,8 +115,8 @@ public class CacheImpl {
             return pjp.proceed();
         }
 
-        Logger.debug("Around for finder {}->{} id: {}", cls.getSimpleName(),
-                     keyvalue);
+        Logger.debug("Around {}->finder for {}:{}", cls.getSimpleName(),
+                     keyvalue, key);
 
 
         //we have key from args, create key string
@@ -147,9 +147,7 @@ public class CacheImpl {
                 if (annotation instanceof PsbCachable) {
                     PsbCachable psbcache = (PsbCachable) annotation;
                     keyvalue = psbcache.keyname();
-                    Logger.debug("PsbCachable has keyvalue:{} for class {}",
-                                keyvalue, targetclass.getSimpleName());
-                }
+                    }
             }
         }
         return keyvalue;
@@ -158,7 +156,7 @@ public class CacheImpl {
     /* Build cache key identifier: table_id_123 */
     public String keyBuilder(String classname, String id, String key) {
         String cachekey = classname + "_" + id + "_" + key;
-        Logger.debug("cache key {}", cachekey);
+        Logger.trace("cache key {}", cachekey);
         return cachekey;
     }
 

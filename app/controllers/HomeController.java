@@ -4,9 +4,10 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Transaction;
 import play.mvc.*;
 import play.data.*;
-import static play.data.Form.*;
+import be.objectify.deadbolt.java.actions.*;
 
 import models.*;
+import security.handler.userdb;
 
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
@@ -15,6 +16,9 @@ import javax.persistence.PersistenceException;
  * Manage a database of computers
  */
 public class HomeController  extends Controller {
+
+    @Inject
+    userdb Users;
 
     private FormFactory formFactory;
 
@@ -33,6 +37,10 @@ public class HomeController  extends Controller {
     /**
      * Handle default path requests, redirect to computers list
      */
+
+
+    @Restrict(value = {@Group(value = "guest"), @Group(value = "user")})
+    //@Pattern(value="tibco", patternType = PatternType.CUSTOM)
     public Result index() {
         return GO_HOME;
     }
@@ -45,6 +53,9 @@ public class HomeController  extends Controller {
      * @param order Sort order (either asc or desc)
      * @param filter Filter applied on computer names
      */
+    //@Restrict({@Group(value = "user")}, {@Group(value = "guest"))
+    //@Pattern(value="seco", patternType = PatternType.CUSTOM)
+    @Pattern("execute")
     public Result list(int page, String sortBy, String order, String filter) {
         return ok(
             views.html.list.render(

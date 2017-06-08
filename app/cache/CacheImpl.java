@@ -41,7 +41,7 @@ public class CacheImpl {
 
 
     //@Pointcut("call(public * com.avaje.ebean.Model$Find.byId(..))")
-    @Pointcut("call(public * models.*.finder(..))")
+    @Pointcut("call(public * models..finder(..))")
     public void psbFindHandler() {
     }
 
